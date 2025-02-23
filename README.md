@@ -13,3 +13,15 @@
 - [x] использование MVVM
 - [x] использование Avalonia
 - [x] использование EF
+
+## Общий интерфейса приложения
+<img src="Images/Screenshot_1.png" alt="Описание изображения" width="500"/>
+
+## Фильтр по машине №95 и добавление новой записи
+<img src="Images/Screenshot_2.png" alt="Описание изображения" width="500"/>
+
+## Логи и сохранение в файл
+<img src="Images/Screenshot_3.png" alt="Описание изображения" width="500"/>
+
+## График по машине №95
+<img src="Images/Screenshot_4.png" alt="Описание изображения" width="500"/>
