@@ -1,0 +1,70 @@
+<Window
+    x:Class="SeverstalTestTask.LogsWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SeverstalTestTask.Other;assembly=SeverstalTestTask"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Logs Viewer"
+    Width="400"
+    Height="600"
+    x:DataType="local:LogManager"
+    Icon="/Assets/avalonia-logo.ico"
+    mc:Ignorable="d">
+
+    <DockPanel Margin="10">
+
+        <Button
+            Padding="15,3"
+            VerticalAlignment="Center"
+            Command="{Binding SaveLogsCommand}"
+            Content="Save to .txt"
+            DockPanel.Dock="Top" />
+
+        <TabControl DockPanel.Dock="Bottom">
+            <TabItem Header="Events">
+                <DataGrid
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Events}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Timestamp, StringFormat='{}{0:HH:mm:ss}', Mode=OneWay}" Header="Time" />
+                        <DataGridTemplateColumn Width="*" Header="Message">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Padding="5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Message}"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Errors">
+                <DataGrid
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Errors}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Timestamp, StringFormat='{}{0:HH:mm:ss}', Mode=OneWay}" Header="Time" />
+                        <DataGridTemplateColumn Width="*" Header="Message">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Padding="5"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Message}"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

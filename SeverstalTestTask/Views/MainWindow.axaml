@@ -1,0 +1,156 @@
+<Window
+    x:Class="SeverstalTestTask.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:SeverstalTestTask.Converters;assembly=SeverstalTestTask"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:SeverstalTestTask.ViewModels;assembly=SeverstalTestTask"
+    Title="SeverstalTestTask"
+    Width="700"
+    Height="600"
+    x:DataType="vm:SeverstalTestTaskViewModel"
+    Icon="/Assets/avalonia-logo.ico"
+    mc:Ignorable="d">
+    <Window.Styles>
+        <Style Selector="HeaderedContentControl">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border
+                            Margin="5,0,0,0"
+                            Padding="5,0,5,0"
+                            Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                            ZIndex="1">
+                            <TextBlock FontSize="9" Text="{TemplateBinding Header}" />
+                        </Border>
+
+                        <Border
+                            Grid.RowSpan="2"
+                            Grid.ColumnSpan="2"
+                            Margin="5,10"
+                            Padding="0,5,0,0"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            CornerRadius="4">
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Padding="8"
+                                Content="{TemplateBinding Content}" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </Window.Styles>
+
+    <Window.Resources>
+        <converter:DecimalConverter x:Key="DecimalConverter" />
+    </Window.Resources>
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="5*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <HeaderedContentControl Header="Add new record">
+            <StackPanel
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+
+                <StackPanel Spacing="5">
+                    <TextBlock VerticalAlignment="Center" Text="Номер машины:" />
+                    <TextBox Width="120" Text="{Binding SelectedMachineNumber}" />
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock VerticalAlignment="Center" Text="Вес брутто:" />
+                    <TextBox Width="100" Text="{Binding GrossWeight}" />
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock VerticalAlignment="Center" Text="Вес тары:" />
+                    <TextBox Width="100" Text="{Binding TareWeight}" />
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Bottom">
+                    <Button
+                        Height="30"
+                        Command="{Binding AddRecordCommand}"
+                        Content="Добавить" />
+                </StackPanel>
+            </StackPanel>
+        </HeaderedContentControl>
+
+        <HeaderedContentControl Grid.Column="1" Header="Graph">
+            <StackPanel>
+                <Label Content="Построить график по данным" />
+                <Button
+                    VerticalAlignment="Bottom"
+                    Command="{Binding OpenGraphCommand}"
+                    Content="Открыть график" />
+            </StackPanel>
+        </HeaderedContentControl>
+
+        <HeaderedContentControl Grid.Row="1" Header="Filter">
+            <StackPanel Height="25" Orientation="Horizontal">
+                <Label Content="Выбор номера машины: " />
+                <ComboBox
+                    Width="100"
+                    ItemsSource="{Binding MachineNumbers}"
+                    SelectedItem="{Binding SelectedMachineNumber}" />
+                <Button Command="{Binding ResetMachineNumberFilterCommand}" Content="Сброс" />
+            </StackPanel>
+        </HeaderedContentControl>
+
+        <HeaderedContentControl
+            Grid.Row="1"
+            Grid.Column="2"
+            Header="Log">
+            <DockPanel>
+                <Label Content="Логирование" />
+
+                <DockPanel>
+                    <Button Command="{Binding OpenLogsCommand}" Content="События и ошибки" />
+                </DockPanel>
+            </DockPanel>
+        </HeaderedContentControl>
+
+        <HeaderedContentControl
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Header="Table from the database">
+
+            <DataGrid
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding FilteredMachineRecords}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding MachineNumber}" Header="Номер машины" />
+                    <DataGridTextColumn Binding="{Binding GrossWeight, Converter={StaticResource DecimalConverter}}" Header="Брутто (кг)" />
+                    <DataGridTextColumn Binding="{Binding TareWeight, Converter={StaticResource DecimalConverter}}" Header="Тара (кг)" />
+                    <DataGridTextColumn Binding="{Binding NetWeight, Converter={StaticResource DecimalConverter}}" Header="Нетто (кг)" />
+                    <DataGridTextColumn Binding="{Binding TareDate}" Header="Дата тары" />
+                    <DataGridTextColumn Binding="{Binding GrossDate}" Header="Дата брутто" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </HeaderedContentControl>
+
+    </Grid>
+</Window>

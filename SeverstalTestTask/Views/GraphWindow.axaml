@@ -1,0 +1,14 @@
+<Window
+    x:Class="SeverstalTestTask.Views.GraphWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:scottplot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+    Title="Graph"
+    Width="700"
+    Height="300"
+    Closed="Window_Closed"
+    Icon="/Assets/avalonia-logo.ico">
+    <Grid>
+        <scottplot:AvaPlot x:Name="PlotView" />
+    </Grid>
+</Window>

@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="db\machinedata.db">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Link>..\Db\machinedata.db</Link>
+    </None>
+    <None Update="Views\GraphWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <PackageReference Include="Avalonia" Version="11.2.1" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.2.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.1" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.1" />
+	<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.2.1" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.2.1">
+      <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+      <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />
+    <PackageReference Include="ScottPlot.Avalonia" Version="5.0.54" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\GraphWindow.axaml.cs">
+      <DependentUpon>GraphWindow.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <Target Name="CopyDatabase" AfterTargets="Build">
+    <Copy SourceFiles="..\Db\machinedata.db" DestinationFolder="$(OutDir)Db\" />
+  </Target>
+</Project>
